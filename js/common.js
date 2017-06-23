@@ -32,7 +32,7 @@ export default class SVMXExternalApp extends Component {
       var indent = 2;
       var prettyJson = JSON.stringify(json, undefined, indent);
       this.setState({receivedText: prettyJson});
-      this.setState({selectedTab: 'profile' });
+      this.setState({selectedTab: 'received' });
     } catch(err)
     {
       console.log(err);
@@ -110,9 +110,9 @@ export default class SVMXExternalApp extends Component {
 
         <TabNavigator.Item
           titleStyle={styles.welcome}
-          selected={this.state.selectedTab === 'profile'}
+          selected={this.state.selectedTab === 'received'}
           title="Receive JSON Data"
-          onPress={() => this.setState({ selectedTab: 'profile' })} >
+          onPress={() => this.setState({ selectedTab: 'received' })} >
           <View style={styles.container}>
             <Text style = {styles.welcome}>
                 Received data

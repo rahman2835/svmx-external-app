@@ -12,6 +12,15 @@ Steps:
 8. Running on Android
 8.1. $ANDROID_HOME/tools/emulator -list-avds # List all emulator, say mine is 10.1_WXGA_Tablet_API_25
 8.2. $ANDROID_HOME/tools/emulator @10.1_WXGA_Tablet_API_25 # Start emulator
-8.3 react-native run-android # Run on the emulator
+8.3. react-native run-android # Run on the emulator
 9. Running on iOS
 9.1. react-native run-ios --simulator "iPad Air"# This run the iOS instance on iPad Air
+9.2. Testing received
+9.2.1. Open Safari within the device and enter the following on the URL field, ensuring no spaces in between.
+  svmxtest://json?={"age":10,"name":"Jack","grade":5}
+9.2.2. Observe the pretty printed JSON on the "receive JSON Data" tab as follows.
+  {
+      "age": 10,
+      "name": "Jack",
+      "grade": 5
+  }
