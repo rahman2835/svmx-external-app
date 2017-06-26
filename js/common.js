@@ -21,7 +21,7 @@ export default class SVMXExternalApp extends Component {
 
   componentDidMount() {
     this.setState({ selectedTab: 'home' });
-    Linking.addEventListener('url', this._handleOpenURL);
+    Linking.addEventListener('url', this.handleOpenURL);
   }
 
   onPressReceiveTab = () => {
@@ -32,7 +32,7 @@ export default class SVMXExternalApp extends Component {
     this.setState({ receivedText });
   }
 
-  _handleOpenURL = (event) => {
+  handleOpenURL = (event) => {
     console.log(event.url);
     try {
       const equalSign = event.url.indexOf('=') + 1;
