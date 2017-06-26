@@ -27,7 +27,7 @@ export default class SVMXExternalApp extends Component {
   onPressReceiveTab = () => {
     this.setState({ selectedTab: 'received' });
   }
-  
+
   onReceiveText = (receivedText) => {
     this.setState({ receivedText });
   }
