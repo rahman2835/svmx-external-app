@@ -16,7 +16,8 @@ export default class SVMXExternalApp extends Component {
     this.state = {
       text: '',
       selectedTab: 'home',
-      receivedText: '' };
+      receivedText: '',
+    };
   }
 
   componentDidMount() {
