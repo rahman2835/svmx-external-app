@@ -6,51 +6,50 @@ import {
   View,
   Button,
   TextInput,
-  Linking
+  Linking,
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 
 export default class SVMXExternalApp extends Component {
   constructor(props) {
     super(props);
-    this.state = {text: ''};
-    this.state = {selectedTab: 'home' };
-    this.state = {receivedText: ''};
+    this.state = {
+      text: '',
+      selectedTab: 'home',
+      receivedText: '' };
   }
 
   componentDidMount() {
-    this.setState({selectedTab: 'home' });
+    this.setState({ selectedTab: 'home' });
     Linking.addEventListener('url', this._handleOpenURL);
   }
 
   _handleOpenURL = (event) => {
     console.log(event.url);
     try {
-      var equalSign = event.url.indexOf('=') + 1;
-      var jsonString = decodeURI(event.url.substring(equalSign, event.url.length));
-      var json = JSON.parse(jsonString);
-      var indent = 2;
-      var prettyJson = JSON.stringify(json, undefined, indent);
-      this.setState({receivedText: prettyJson});
-      this.setState({selectedTab: 'received' });
-    } catch(err)
-    {
+      const equalSign = event.url.indexOf('=') + 1;
+      const jsonString = decodeURI(event.url.substring(equalSign, event.url.length));
+      const json = JSON.parse(jsonString);
+      const indent = 2;
+      const prettyJson = JSON.stringify(json, undefined, indent);
+      this.setState({ receivedText: prettyJson });
+      this.setState({ selectedTab: 'received' });
+    } catch (err) {
       console.log(err);
-      this.setState({receivedText: err});
       console.log('Invalid input as JSON');
     }
   }
 
   handleBtnClick = () => {
     console.log('this is:', this);
-    let data = this.state.text;
+    const data = this.state.text;
     this.launchedSVMXApp(data);
   }
 
   _populateDefaultJSON = () => {
     console.log('this is:', this);
-    let defaultJSONData = this._getJSONData();
-    this.setState({text: defaultJSONData})
+    const defaultJSONData = this._getJSONData();
+    this.setState({ text: defaultJSONData });
   }
 
   _getJSONData() {
@@ -58,51 +57,53 @@ export default class SVMXExternalApp extends Component {
   }
 
   launchedSVMXApp(data) {
-    let servicemaxSchemaName = 'svmx';
-    let url = servicemaxSchemaName + '://' + encodeURIComponent(data);
-    Linking.canOpenURL(url).then(supported => {
-      console.log('URL: ' + url + '; + supported? ' + supported);
+    const servicemaxSchemaName = 'svmx';
+    const url = `${servicemaxSchemaName}://${encodeURIComponent(data)}`;
+    Linking.canOpenURL(url).then((supported) => {
+      console.log(`URL: ${url}; + supported? ${supported}`);
       return Linking.openURL(url);
     }).catch(err => console.error('An error occurred', err));
   }
 
   render() {
-    return(
+    return (
       <TabNavigator>
         <TabNavigator.Item
           titleStyle={styles.welcome}
           selected={this.state.selectedTab === 'home'}
           title="Send JSON Data"
-          onPress={() => this.setState({ selectedTab: 'home' })} >
-            <View style={styles.container}>
-              <Text style = {styles.welcome}>
+          onPress={() => this.setState({ selectedTab: 'home' })}
+        >
+          <View style={styles.container}>
+            <Text style={styles.welcome}>
                 Welcome Buddy
-                {"\n"}{"\n"}
-                <Text style = {styles.normaltext}>
-                  Enter JSON data and click 'Send' button to send data to ServiceMax app {"\n"} or click link for
+                {'\n'}{'\n'}
+              <Text style={styles.normaltext}>
+                  Enter JSON data and click 'Send' button to send data to ServiceMax app {'\n'} or click link for
                 </Text>
-              <Text style={{color: 'black', fontSize: 20, textDecorationLine: 'underline', fontWeight: 'bold'}} onPress={this._populateDefaultJSON}>
+              <Text style={{ color: 'black', fontSize: 20, textDecorationLine: 'underline', fontWeight: 'bold' }} onPress={this._populateDefaultJSON}>
                 &nbsp;Sample JSON
               </Text>
             </Text>
 
             <TextInput
-              style={{height: "60%", borderColor: 'gray', borderWidth: 10, fontSize: 20, margin: 20, borderRadius: 10, borderWidth: 2}}
-              multiline = {true}
-              editable = {true}
-              numberOfLines = {4}
-              borderColor = 'gray'
-              placeholder =  {' Please enter json data...'}
-              placeholderTextColor = '#a9a9a9'
-              onChangeText={(text) => this.setState({text})}
+              style={{ height: '60%', borderColor: 'gray', borderWidth: 10, fontSize: 20, margin: 20, borderRadius: 10, borderWidth: 2 }}
+              multiline
+              editable
+              numberOfLines={4}
+              borderColor="gray"
+              placeholder={' Please enter json data...'}
+              placeholderTextColor="#a9a9a9"
+              onChangeText={text => this.setState({ text })}
               value={this.state.text}
             />
 
-            <View style = {styles.buttonContainer}>
-              <Button style = {styles.buttonContainer}
-                onPress= {this.handleBtnClick}
+            <View style={styles.buttonContainer}>
+              <Button
+                style={styles.buttonContainer}
+                onPress={this.handleBtnClick}
                 title="Send"
-                color='black'
+                color="black"
               />
             </View>
           </View>
@@ -112,22 +113,22 @@ export default class SVMXExternalApp extends Component {
           titleStyle={styles.welcome}
           selected={this.state.selectedTab === 'received'}
           title="Receive JSON Data"
-          onPress={() => this.setState({ selectedTab: 'received' })} >
+          onPress={() => this.setState({ selectedTab: 'received' })}
+        >
           <View style={styles.container}>
-            <Text style = {styles.welcome}>
+            <Text style={styles.welcome}>
                 Received data
             </Text>
             <TextInput
-              style={{height: "60%", borderColor: 'gray', borderWidth: 10, fontSize: 20, margin: 20, borderRadius: 10, borderWidth: 2}}
-              multiline = {true}
-              editable = {false}
-              numberOfLines = {4}
-              borderColor = 'gray'
-              placeholderTextColor = '#a9a9a9'
-              onChangeText={(receivedText) => this.setState({receivedText})}
+              style={{ height: '70%', borderColor: 'gray', borderWidth: 10, fontSize: 20, margin: 20, borderRadius: 10, borderWidth: 2 }}
+              multiline
+              editable={false}
+              numberOfLines={4}
+              borderColor="gray"
+              placeholderTextColor="#a9a9a9"
+              onChangeText={receivedText => this.setState({ receivedText })}
               value={this.state.receivedText}
             />
-
           </View>
         </TabNavigator.Item>
       </TabNavigator>
@@ -159,16 +160,16 @@ const styles = StyleSheet.create({
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 3,
     },
     shadowRadius: 10,
-    shadowOpacity: 0.25
+    shadowOpacity: 0.25,
   },
   titleText: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 20
-  }
+    margin: 20,
+  },
 });
 
 AppRegistry.registerComponent('SVMXExternalApp', () => SVMXExternalApp);
