@@ -23,6 +23,11 @@ export default class SVMXExternalApp extends Component {
   componentDidMount() {
     this.setState({ selectedTab: 'home' });
     Linking.addEventListener('url', this.handleOpenURL);
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        this.handleOpenURL({url: url});
+      }
+    }).catch(err => console.error('An error occurred', err));
   }
 
   onPressReceiveTab = () => {
@@ -34,7 +39,6 @@ export default class SVMXExternalApp extends Component {
   }
 
   handleOpenURL = (event) => {
-    console.log(event.url);
     try {
       const questionMark = event.url.indexOf('?') + 1;
       const parameterString = decodeURI(event.url.substring(questionMark, event.url.length));
@@ -52,22 +56,21 @@ export default class SVMXExternalApp extends Component {
       }
       const indent = 2;
       const prettyJson = JSON.stringify(allParams, undefined, indent);
-      this.setState({ receivedText: prettyJson });
-      this.setState({ selectedTab: 'received' });
+      this.setState({
+        selectedTab: 'received',
+        receivedText: prettyJson
+      });
     } catch (err) {
       console.log(err);
-      console.log('Invalid input as JSON');
     }
   }
 
   handleBtnClick = () => {
-    console.log('this is:', this);
     const data = this.state.text;
     this.launchedSVMXApp(data);
   }
 
   _populateDefaultJSON = () => {
-    console.log('this is:', this);
     const defaultJSONData = this._getJSONData();
     this.setState({ text: defaultJSONData });
   }
@@ -81,7 +84,7 @@ export default class SVMXExternalApp extends Component {
     const url = `${servicemaxSchemaName}://${encodeURIComponent(data)}`;
     Linking.canOpenURL(url).then((supported) => {
       console.log(`URL: ${url}; + supported? ${supported}`);
-      return Linking.openURL(url);
+        return Linking.openURL(url);
     }).catch(err => console.error('An error occurred', err));
   }
 
@@ -142,7 +145,7 @@ export default class SVMXExternalApp extends Component {
             <TextInput
               style={{ height: '70%', borderColor: 'gray', borderWidth: 10, fontSize: 20, margin: 20, borderRadius: 10, borderWidth: 2 }}
               multiline
-              editable={false}
+              editable={true}
               numberOfLines={4}
               borderColor="gray"
               placeholderTextColor="#a9a9a9"
