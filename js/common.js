@@ -48,14 +48,15 @@ export default class SVMXExternalApp extends Component {
         const indexOfEqualSign = paramsArray[i].indexOf('=');
         var paramKey = paramsArray[i].substring(0, indexOfEqualSign);
         var paramValue = paramsArray[i].substring(indexOfEqualSign+1, paramsArray[i].length);
-        if (paramKey === 'SVMXRecordData') {
+        if (paramKey === 'data') {
           allParams[paramKey] = JSON.parse(decodeURIComponent(paramValue));
         } else {
           allParams[paramKey] = paramValue;
         }
       }
       const indent = 2;
-      const prettyJson = JSON.stringify(allParams, undefined, indent);
+      /* incoming data will have a key called 'data' which contains all the Json data */
+      const prettyJson = JSON.stringify(allParams.data, undefined, indent);
       this.setState({
         selectedTab: 'received',
         receivedText: prettyJson
@@ -81,7 +82,8 @@ export default class SVMXExternalApp extends Component {
 
   launchedSVMXApp(data) {
     const servicemaxSchemaName = 'svmx';
-    const url = `${servicemaxSchemaName}://${encodeURIComponent(data)}`;
+    const action = 'update';
+    const url = `${servicemaxSchemaName}://${action}?data=${encodeURIComponent(data)}`;
     Linking.canOpenURL(url).then((supported) => {
       console.log(`URL: ${url}; + supported? ${supported}`);
         return Linking.openURL(url);
