@@ -41,7 +41,7 @@ export default class SVMXExternalApp extends Component {
   handleOpenURL = (event) => {
     try {
       const questionMark = event.url.indexOf('?') + 1;
-      const parameterString = decodeURI(event.url.substring(questionMark, event.url.length));
+      const parameterString = event.url.substring(questionMark, event.url.length);
       var allParams = {};
       const paramsArray = parameterString.split('&');
       for (var i = 0; i < paramsArray.length; i++) {
