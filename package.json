@@ -3,19 +3,28 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
+		"android": "react-native run-android",
+		"ios": "react-native run-ios",
+		"start": "react-native start",
+		"test": "jest",
+		"lint": "eslint .",
+		"build:js": "react-native bundle --platform windows  --entry-file index.js --bundle-output windows/SVMXExternalAPP/Assets/index.windows.bundle --assets-dest windows/SVMXExternalAPP/Assets"
 	},
 	"dependencies": {
-		"react": "16.0.0-alpha.12",
-		"react-native": "0.45.1",
-		"react-native-tab-navigator": "^0.3.3"
+		"react": "16.13.1",
+		"react-native": "0.63.3",
+		"react-native-windows": "^0.63.0-0",
+		"react-native-tab-navigator": "^0.3.4"
 	},
 	"devDependencies": {
-		"babel-jest": "20.0.3",
-		"babel-preset-react-native": "2.0.0",
-		"jest": "20.0.4",
-		"react-test-renderer": "16.0.0-alpha.12"
+		"@babel/core": "^7.8.4",
+		"@babel/runtime": "^7.8.4",
+		"@react-native-community/eslint-config": "^1.1.0",
+		"babel-jest": "^25.1.0",
+		"eslint": "^6.5.1",
+		"jest": "^25.1.0",
+		"metro-react-native-babel-preset": "^0.59.0",
+		"react-test-renderer": "16.13.1"
 	},
 	"jest": {
 		"preset": "react-native"
